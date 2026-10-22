@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class KeepSoundManager : MonoBehaviour // 캔버스가 가지고 있는 스크립트
+                                        // 캔버스가 이 프로젝트 내에서 단 하나만 존재할 수 있게 해주는 스크립트 = 싱글톤 패턴
+{
+    public static KeepSoundManager instance; // KeepSoundManager 인스턴스를 참조하는 필드
+    // 이 인스턴스를 참조하는 필드는 하나만 존재해야 하므로 꼭 static를 붙여줘야 한다.
+
+    private void Awake() // Start()보다 일찍 시작되는 이벤트 메서드
+    {
+        if (instance == null)   // instance 필드가 참조하는 KeepSoundManager 인스턴스가 없을 때
+        {
+            instance = this;
+            // instance 필드가 이 클래스(KeepCamera 클래스) 인스턴스(this)를 참조하도록 한다.
+
+            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 싱글톤 인스턴스가 사라지지 않게 해준다.
+        }
+        else   // 만일 instance 필드가 참조하는 KeepSoundManager 인스턴스가 있을 때
+        {
+            Destroy(gameObject);    // 지금 만들려고 하는 인스턴스 삭제하기
+        }
+    }
+}
